@@ -1,0 +1,110 @@
+openapi: 3.0.3
+info:
+  title: Players Management System
+  version: 1.0.0
+servers:
+- url: https://localhost:8080api
+paths:
+  /player:
+    get:
+      operationId: getPlayers
+      responses:
+        "200":
+          content:
+            application/json:
+              example:
+              - id: 1
+                firstName: Francesco
+                lastName: Totti
+                team: Roma
+                position: midfielder
+              - id: 2
+                firstName: Alessandro
+                lastName: Del Piero
+                team: Juventus
+                position: forward
+              schema:
+                items:
+                  $ref: '#/components/schemas/Player'
+                type: array
+          description: Get all players successfully
+      summary: Get all players
+      x-accepts: application/json
+  /player/{id}:
+    delete:
+      operationId: deletePlayerById
+      parameters:
+      - description: Id of the Player
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              example:
+                message: Player deleted!
+              schema:
+                $ref: '#/components/schemas/Response'
+          description: Delete player information successfully
+      summary: Delete a player by id
+      x-accepts: application/json
+    get:
+      operationId: getPlayerById
+      parameters:
+      - description: Id of the Player
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              example:
+                id: 1
+                firstName: Francesco
+                lastName: Totti
+                team: Roma
+                position: midfielder
+              schema:
+                $ref: '#/components/schemas/Player'
+          description: Get player information successfully
+      summary: Get a player by id
+      x-accepts: application/json
+components:
+  schemas:
+    Player:
+      example:
+        firstName: firstName
+        lastName: lastName
+        id: 0
+        team: team
+        position: position
+      properties:
+        id:
+          format: int64
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        team:
+          type: string
+        position:
+          type: string
+      type: object
+    Response:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+      type: object
